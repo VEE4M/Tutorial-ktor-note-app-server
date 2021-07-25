@@ -5,6 +5,7 @@ import com.gmail.appverstas.data.collections.User
 import com.gmail.appverstas.data.registerUser
 import com.gmail.appverstas.data.requests.AccountRequest
 import com.gmail.appverstas.data.responses.SimpleResponse
+import com.gmail.appverstas.security.getHashWithSalt
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.features.ContentTransformationException
@@ -25,7 +26,7 @@ fun Route.registerRoute(){
             }
             val userExists = checkIfUserExists(request.email)
             if(!userExists){
-                if(registerUser(User(request.email, request.password))){
+                if(registerUser(User(request.email, getHashWithSalt(request.password)))){
                     call.respond(OK,SimpleResponse(true, "Successfully created account!"))
                 }else{
                     call.respond(OK,SimpleResponse(false, "an unknown error occured!"))

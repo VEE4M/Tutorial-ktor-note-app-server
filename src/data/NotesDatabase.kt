@@ -2,6 +2,7 @@ package com.gmail.appverstas.data
 
 import com.gmail.appverstas.data.collections.Note
 import com.gmail.appverstas.data.collections.User
+import com.gmail.appverstas.security.checkHashForPassword
 import org.litote.kmongo.contains
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.eq
@@ -23,7 +24,7 @@ suspend fun checkIfUserExists(email: String): Boolean{
 
 suspend fun checkPasswordForEmail(passwordToCheck: String, email: String): Boolean{
     val actualPassword = users.findOne(User::email eq email)?.password ?: return false
-    return actualPassword == passwordToCheck
+    return checkHashForPassword(passwordToCheck, actualPassword)
 }
 
 suspend fun getNotesForUser(email: String): List<Note>{
