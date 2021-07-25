@@ -1,6 +1,6 @@
 package com.gmail.appverstas.data.requests
 
 data class AddOwnerRequest (
-    val noteId: String,
+    val noteID: String,
     val owner: String
 )
